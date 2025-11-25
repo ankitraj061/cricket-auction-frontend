@@ -365,108 +365,8 @@ const Auction = () => {
 
         {/* Main Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left: Team Status Panel */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-4"
-          >
-            <div className="relative mb-6">
-              <div className="absolute -inset-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-2xl blur-xl opacity-50"></div>
-              <div className="relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border-2 border-gray-700/50 rounded-2xl p-4">
-                <h2 className="text-xl font-black text-white flex items-center gap-3">
-                  <div className="p-2 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl">
-                    <Users className="h-5 w-5 text-cyan-400" />
-                  </div>
-                  Team Status
-                  <span className="ml-auto px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-xs font-bold">
-                    {teams.length} Teams
-                  </span>
-                </h2>
-              </div>
-            </div>
 
-            <div className="space-y-3 max-h-[650px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-emerald-700/50 scrollbar-track-transparent">
-              {teams.map((team, index) => (
-                <motion.div
-                  key={team.teamId}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  whileHover={{ scale: 1.02, x: 5 }}
-                >
-                  <div className="relative group">
-                    <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition duration-300"></div>
-                    
-                    <Card className="relative bg-gradient-to-br from-gray-800/70 to-gray-900/70 backdrop-blur-xl border border-gray-700/50 group-hover:border-emerald-500/40 rounded-xl p-5 transition-all duration-300 shadow-lg">
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="p-2 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 rounded-lg">
-                          <Trophy className="h-5 w-5 text-emerald-400" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="font-black text-white text-base line-clamp-1">{team.name}</div>
-                          <div className="text-xs text-gray-400 flex items-center gap-2 mt-0.5">
-                            <TrendingUp className="h-3 w-3" />
-                            {team.totalPlayers} Players
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-3">
-                        <div>
-                          <div className="flex justify-between text-xs mb-2">
-                            <span className="text-gray-400 font-medium">Remaining Purse</span>
-                            <span className="text-amber-400 font-bold flex items-center gap-0.5">
-                              <IndianRupee className="h-3 w-3" />
-                              {team.remainingPurse.toLocaleString()}
-                            </span>
-                          </div>
-                          <div className="relative w-full bg-gray-700/50 rounded-full h-2.5 overflow-hidden">
-                            <motion.div
-                              initial={{ width: 0 }}
-                              animate={{ 
-                                width: `${((INITIAL_PURSE - team.remainingPurse) / INITIAL_PURSE) * 100}%` 
-                              }}
-                              transition={{ duration: 1, ease: 'easeOut' }}
-                              className="absolute top-0 left-0 h-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 rounded-full shadow-lg"
-                            />
-                          </div>
-                          <div className="flex justify-between text-[10px] text-gray-500 mt-1">
-                            <span>₹0</span>
-                            <span>₹{INITIAL_PURSE.toLocaleString()}</span>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center justify-between pt-2 border-t border-gray-700/50">
-                          <div className="text-center">
-                            <p className="text-xs text-gray-400">Players</p>
-                            <p className="text-lg font-black text-emerald-400">{team.totalPlayers}</p>
-                          </div>
-                          <div className="h-8 w-px bg-gray-700/50"></div>
-                          <div className="text-center">
-                            <p className="text-xs text-gray-400">Spent</p>
-                            <p className="text-lg font-black text-red-400">
-                              {((INITIAL_PURSE - team.remainingPurse) / 1000).toFixed(0)}K
-                            </p>
-                          </div>
-                          <div className="h-8 w-px bg-gray-700/50"></div>
-                          <div className="text-center">
-                            <p className="text-xs text-gray-400">Budget%</p>
-                            <p className="text-lg font-black text-blue-400">
-                              {((team.remainingPurse / INITIAL_PURSE) * 100).toFixed(0)}%
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </Card>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Right: Auction Arena */}
+          {/* Left: Auction Arena */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -584,6 +484,108 @@ const Auction = () => {
               </motion.div>
             </div>
           </motion.div>
+
+          {/* Right: Team Status Panel */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-4"
+          >
+            <div className="relative mb-6">
+              <div className="absolute -inset-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-2xl blur-xl opacity-50"></div>
+              <div className="relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border-2 border-gray-700/50 rounded-2xl p-4">
+                <h2 className="text-xl font-black text-white flex items-center gap-3">
+                  <div className="p-2 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl">
+                    <Users className="h-5 w-5 text-cyan-400" />
+                  </div>
+                  Team Status
+                  <span className="ml-auto px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-xs font-bold">
+                    {teams.length} Teams
+                  </span>
+                </h2>
+              </div>
+            </div>
+
+            <div className="space-y-2 max-h-[950px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-emerald-700/50 scrollbar-track-transparent">
+              {teams.map((team, index) => (
+                <motion.div
+                  key={team.teamId}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  whileHover={{ scale: 1.02, x: 5 }}
+                >
+                  <div className="relative group">
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                    
+                    <Card className="relative bg-gradient-to-br from-gray-800/70 to-gray-900/70 backdrop-blur-xl border border-gray-700/50 group-hover:border-emerald-500/40 rounded-xl p-5 transition-all duration-300 shadow-lg">
+                      <div className="flex items-center gap-3 ">
+                        <div className="p-2 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 rounded-lg">
+                          <Trophy className="h-5 w-5 text-emerald-400" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-black text-white text-base line-clamp-1">{team.name}</div>
+                          <div className="text-xs text-gray-400 flex items-center gap-2 mt-0.5">
+                            <TrendingUp className="h-3 w-3" />
+                            {team.totalPlayers} Players
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-3">
+                        <div>
+                          <div className="flex justify-between text-xs mb-2">
+                            <span className="text-gray-400 font-medium">Remaining Purse</span>
+                            <span className="text-amber-400 font-bold flex items-center gap-0.5">
+                              <IndianRupee className="h-3 w-3" />
+                              {team.remainingPurse.toLocaleString()}
+                            </span>
+                          </div>
+                          <div className="relative w-full bg-gray-700/50 rounded-full h-2.5 overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ 
+                                width: `${((INITIAL_PURSE - team.remainingPurse) / INITIAL_PURSE) * 100}%` 
+                              }}
+                              transition={{ duration: 1, ease: 'easeOut' }}
+                              className="absolute top-0 left-0 h-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 rounded-full shadow-lg"
+                            />
+                          </div>
+                          <div className="flex justify-between text-[10px] text-gray-500 mt-1">
+                            <span>₹0</span>
+                            <span>₹{INITIAL_PURSE.toLocaleString()}</span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between pt-2 border-t border-gray-700/50">
+                          <div className="text-center">
+                            <p className="text-xs text-gray-400">Players</p>
+                            <p className="text-lg font-black text-emerald-400">{team.totalPlayers}</p>
+                          </div>
+                          <div className="h-8 w-px bg-gray-700/50"></div>
+                          <div className="text-center">
+                            <p className="text-xs text-gray-400">Spent</p>
+                            <p className="text-lg font-black text-red-400">
+                              {((INITIAL_PURSE - team.remainingPurse) / 1000).toFixed(0)}K
+                            </p>
+                          </div>
+                          <div className="h-8 w-px bg-gray-700/50"></div>
+                          <div className="text-center">
+                            <p className="text-xs text-gray-400">Budget%</p>
+                            <p className="text-lg font-black text-blue-400">
+                              {((team.remainingPurse / INITIAL_PURSE) * 100).toFixed(0)}%
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
         </div>
       </div>
 

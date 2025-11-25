@@ -1,3 +1,4 @@
+// auction cards : 
 'use client';
 
 import Image from 'next/image';
@@ -45,7 +46,7 @@ const AuctionCard = ({ player }: AuctionCardProps) => {
 
   const getPlayerIcon = () => {
     const r = player.role.toLowerCase();
-    const cls = "h-16 w-16 text-gray-400";
+    const cls = "h-50 w-50 text-gray-400";
     if (r.includes('bat')) return <BatIcon className={cls} />;
     if (r.includes('bowl')) return <BowlIcon className={cls} />;
     if (r.includes('all')) return <AllRoundIcon className={cls} />;
@@ -73,36 +74,11 @@ const AuctionCard = ({ player }: AuctionCardProps) => {
         <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-cyan-500/20 to-transparent rounded-br-full blur-2xl"></div>
         <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-purple-500/20 to-transparent rounded-tl-full blur-2xl"></div>
 
-        {/* Header with Glass Effect */}
-        <div className="relative bg-gradient-to-r from-emerald-600/30 via-teal-600/30 to-cyan-600/30 backdrop-blur-md p-4 flex items-center justify-between border-b border-cyan-500/30">
-          {/* Shine Effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-[shimmer_3s_ease-in-out_infinite]"></div>
-          
-          <div className="relative flex items-center gap-3">
-            <Trophy className="h-6 w-6 text-cyan-400 animate-pulse" />
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-cyan-200 via-teal-200 to-emerald-200 bg-clip-text text-transparent">
-              Current Player
-            </h2>
-          </div>
-          
-          <motion.div
-            animate={{ scale: [1, 1.05, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="relative"
-          >
-            <Badge className="bg-gradient-to-r from-amber-500 to-orange-500 text-gray-900 font-bold px-5 py-2 text-sm shadow-[0_0_20px_rgba(245,158,11,0.5)] border-0">
-              <Zap className="h-4 w-4 mr-1 inline animate-pulse" />
-              LIVE
-            </Badge>
-            <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-ping"></div>
-            <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></div>
-          </motion.div>
-        </div>
 
         {/* Main Content */}
-        <div className="relative p-6">
+        <div className="relative p-2 px-10">
           {/* Player Showcase Section */}
-          <div className="flex items-start gap-8 mb-8">
+          <div className=" items-start gap-8 mb-6 grid md:grid-cols-2 lg:grid-col-2 sm:grid-cols-1">
             {/* Enhanced Avatar with Holographic Ring */}
             <motion.div 
               className="relative flex-shrink-0"
@@ -133,7 +109,7 @@ const AuctionCard = ({ player }: AuctionCardProps) => {
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 via-transparent to-transparent"></div>
                 </div>
               ) : (
-                <div className="relative w-80 h-80 rounded-full flex items-center justify-center border-4 border-gray-700/50 shadow-[0_0_40px_rgba(0,255,255,0.3)] bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm">
+                <div className="relative w-60 h-60 rounded-full flex items-center justify-center border-4 border-gray-700/50 shadow-[0_0_40px_rgba(0,255,255,0.3)] bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm">
                   {getPlayerIcon()}
                 </div>
               )}
@@ -150,13 +126,13 @@ const AuctionCard = ({ player }: AuctionCardProps) => {
             </motion.div>
 
             {/* Player Info - Glass Cards */}
-            <div className="flex-1 space-y-5 pt-2">
+            <div className="flex-1 space-y-2 ml-6">
               {/* Name Card */}
               <motion.div 
-                className="bg-gradient-to-br from-gray-800/60 to-gray-900/60 backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-5 shadow-[0_8px_32px_0_rgba(0,255,255,0.1)]"
+                className="bg-gradient-to-br from-gray-800/60 to-gray-900/60 backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-4 shadow-[0_8px_32px_0_rgba(0,255,255,0.1)]"
                 whileHover={{ scale: 1.02, borderColor: 'rgba(6,182,212,0.5)' }}
               >
-                <p className="text-xs font-semibold text-cyan-400 mb-2 tracking-wider uppercase">Player Name</p>
+                <p className="text-xs font-semibold text-cyan-400 mb-1 tracking-wider uppercase">Player Name</p>
                 <h3 className="text-3xl font-black bg-gradient-to-r from-white via-cyan-100 to-white bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
                   {player.name}
                 </h3>
@@ -164,15 +140,15 @@ const AuctionCard = ({ player }: AuctionCardProps) => {
 
               {/* Base Price Card */}
               <motion.div 
-                className="bg-gradient-to-br from-amber-900/40 to-orange-900/40 backdrop-blur-xl border border-amber-500/40 rounded-2xl p-5 shadow-[0_8px_32px_0_rgba(245,158,11,0.2)]"
+                className="bg-gradient-to-br from-amber-900/40 to-orange-900/40 backdrop-blur-xl border border-amber-500/40 rounded-2xl p-3 shadow-[0_8px_32px_0_rgba(245,158,11,0.2)]"
                 whileHover={{ scale: 1.02 }}
               >
                 <p className="text-xs font-semibold text-amber-300 mb-2 tracking-wider uppercase">Base Price</p>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   <div className="p-2 bg-amber-500/20 rounded-xl">
-                    <IndianRupee className="h-7 w-7 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
+                    <IndianRupee className="h-6 w-6 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
                   </div>
-                  <p className="text-4xl font-black text-amber-300 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]">
+                  <p className="text-3xl font-black text-amber-300 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]">
                     {player.basePrice.toLocaleString()}
                   </p>
                 </div>
@@ -180,7 +156,7 @@ const AuctionCard = ({ player }: AuctionCardProps) => {
 
               {/* Role Card */}
               <motion.div 
-                className="bg-gradient-to-br from-gray-800/60 to-gray-900/60 backdrop-blur-xl border border-gray-600/40 rounded-2xl p-5"
+                className="bg-gradient-to-br from-gray-800/60 to-gray-900/60 backdrop-blur-xl border border-gray-600/40 rounded-2xl p-3"
                 whileHover={{ scale: 1.02 }}
               >
                 <p className="text-xs font-semibold text-gray-400 mb-3 tracking-wider uppercase">Role</p>
@@ -197,16 +173,16 @@ const AuctionCard = ({ player }: AuctionCardProps) => {
           {/* Description Section - Enhanced Glass */}
           {player.description && (
             <motion.div 
-              className="bg-gradient-to-br from-blue-900/20 to-purple-900/20 backdrop-blur-xl border border-blue-500/30 rounded-2xl p-6 mb-5 shadow-[0_8px_32px_0_rgba(59,130,246,0.1)] relative overflow-hidden"
+              className="bg-gradient-to-br from-blue-900/20 to-purple-900/20 backdrop-blur-xl border border-blue-500/30 rounded-2xl p-3 mb-3 shadow-[0_8px_32px_0_rgba(59,130,246,0.1)] relative overflow-hidden"
               whileHover={{ borderColor: 'rgba(59,130,246,0.5)' }}
             >
               {/* Inner Glow */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-400 to-transparent"></div>
               
-             <p className="text-xs font-semibold text-blue-300 mb-3 tracking-wider uppercase flex items-center gap-2">
-  <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse inline-block"></span>
-  Player Profile
-</p>
+              <p className="text-xs font-semibold text-blue-300 mb-1 tracking-wider uppercase flex items-center gap-2">
+                <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse inline-block"></span>
+                Player Profile
+              </p>
 
               <p className="text-base text-gray-200 leading-relaxed line-clamp-2 font-light">
                 {player.description}
@@ -217,13 +193,13 @@ const AuctionCard = ({ player }: AuctionCardProps) => {
           {/* Stats Section - Enhanced Glass */}
           {player.stats && (
             <motion.div 
-              className="bg-gradient-to-br from-emerald-900/20 to-teal-900/20 backdrop-blur-xl border border-emerald-500/30 rounded-2xl p-6 shadow-[0_8px_32px_0_rgba(16,185,129,0.1)] relative overflow-hidden"
+              className="bg-gradient-to-br from-emerald-900/20 to-teal-900/20 backdrop-blur-xl border border-emerald-500/30 rounded-2xl p-3 shadow-[0_8px_32px_0_rgba(16,185,129,0.1)] relative overflow-hidden"
               whileHover={{ borderColor: 'rgba(16,185,129,0.5)' }}
             >
               {/* Inner Glow */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent"></div>
               
-              <div className="text-xs font-semibold text-emerald-300 mb-3 tracking-wider uppercase flex items-center gap-2">
+              <div className="text-xs font-semibold text-emerald-300 mb-1 tracking-wider uppercase flex items-center gap-2">
                 <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
                 Performance Stats
               </div>
@@ -235,7 +211,7 @@ const AuctionCard = ({ player }: AuctionCardProps) => {
         </div>
 
         {/* Bottom Accent Bar */}
-        <div className="h-2 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500"></div>
+        {/* <div className="h-2 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500"></div> */}
       </Card>
     </motion.div>
   );
