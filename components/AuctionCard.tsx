@@ -203,10 +203,11 @@ const AuctionCard = ({ player }: AuctionCardProps) => {
               {/* Inner Glow */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-400 to-transparent"></div>
               
-              <p className="text-xs font-semibold text-blue-300 mb-3 tracking-wider uppercase flex items-center gap-2">
-                <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-                Player Profile
-              </p>
+             <p className="text-xs font-semibold text-blue-300 mb-3 tracking-wider uppercase flex items-center gap-2">
+  <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse inline-block"></span>
+  Player Profile
+</p>
+
               <p className="text-base text-gray-200 leading-relaxed line-clamp-2 font-light">
                 {player.description}
               </p>
@@ -222,10 +223,10 @@ const AuctionCard = ({ player }: AuctionCardProps) => {
               {/* Inner Glow */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent"></div>
               
-              <p className="text-xs font-semibold text-emerald-300 mb-3 tracking-wider uppercase flex items-center gap-2">
+              <div className="text-xs font-semibold text-emerald-300 mb-3 tracking-wider uppercase flex items-center gap-2">
                 <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
                 Performance Stats
-              </p>
+              </div>
               <p className="text-base text-gray-200 leading-relaxed line-clamp-2 font-light">
                 {player.stats}
               </p>
