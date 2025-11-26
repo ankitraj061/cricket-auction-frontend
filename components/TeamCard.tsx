@@ -43,12 +43,11 @@ const TeamCard = ({ team }: TeamCardProps) => {
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 opacity-60"></div>
             
             {/* Content Container */}
-            <div className="relative p-6 flex flex-col h-full">
+            <div className="relative p-3 flex flex-col h-full">
               {/* Team Header Section */}
-              <div className="flex items-start gap-4 mb-6">
-                {/* Captain Avatar with Animated Ring */}
-                <div className="relative flex-shrink-0">
-                  {/* Rotating Glow Ring */}
+              <div className="flex items-start gap-3 mb-3">
+             
+                <div className="relative flex-shrink-0 ">
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
@@ -59,10 +58,10 @@ const TeamCard = ({ team }: TeamCardProps) => {
                     <img
                       src={team.captainImage}
                       alt={team.captainName}
-                      className="relative w-16 h-16 rounded-full border-3 border-gray-700/50 object-cover shadow-lg"
+                      className="relative w-25 h-25 rounded-full border-3 border-gray-700/50 object-cover shadow-lg"
                     />
                   ) : (
-                    <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 backdrop-blur-sm flex items-center justify-center border-3 border-emerald-500/30 shadow-lg">
+                    <div className="relative w-25 h-25 rounded-full bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 backdrop-blur-sm flex items-center justify-center border-3 border-emerald-500/30 shadow-lg">
                       <span className="text-emerald-400 font-black text-xl">
                         {team.captainName.charAt(0)}
                       </span>
@@ -71,17 +70,17 @@ const TeamCard = ({ team }: TeamCardProps) => {
                   
                   {/* Captain Badge */}
                   <div className="absolute -bottom-1 -right-1 bg-gradient-to-br from-amber-500 to-orange-500 p-1.5 rounded-full shadow-[0_0_12px_rgba(245,158,11,0.6)]">
-                    <Trophy className="h-3 w-3 text-gray-900" />
+                    <Trophy className="h-5 w-5 text-gray-900" />
                   </div>
                 </div>
 
                 {/* Team Info */}
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-black text-xl bg-gradient-to-r from-white via-cyan-100 to-white bg-clip-text text-transparent line-clamp-1 mb-1">
+                  <h3 className="font-black text-lg bg-gradient-to-r from-white via-cyan-100 to-white bg-clip-text text-transparent line-clamp-1 mb-1 mt-2">
                      {team.name}
                   </h3>
                   <div className="flex items-center gap-2">
-                    <Sparkles className="h-3 w-3 text-cyan-400 animate-pulse" />
+                    <Sparkles className="h-4 w-4 text-cyan-400 animate-pulse" />
                     <span className="text-xs text-gray-400 font-medium">{team.captainName}</span>
                   </div>
                 </div>
@@ -97,7 +96,7 @@ const TeamCard = ({ team }: TeamCardProps) => {
               </div>
 
               {/* Stats Section with Glass Cards */}
-              <div className="space-y-3 mt-auto">
+              <div className="space-y-2  mt-auto ">
                 {/* Purse Card */}
                 <motion.div 
                   className="bg-gradient-to-br from-amber-900/20 to-orange-900/20 backdrop-blur-xl border border-amber-500/30 rounded-xl p-4 group-hover:border-amber-500/50 transition-all duration-300 relative overflow-hidden"
@@ -126,7 +125,7 @@ const TeamCard = ({ team }: TeamCardProps) => {
                   </div>
 
                   {/* Progress Bar */}
-                  <div className="mt-3 h-1.5 bg-gray-800/60 rounded-full overflow-hidden">
+                  <div className="mt-2 h-1.5 bg-gray-800/60 rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${pursePercentage}%` }}
