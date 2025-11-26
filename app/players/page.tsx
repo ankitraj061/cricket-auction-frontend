@@ -7,31 +7,37 @@ import { Button } from '@/components/ui/button';
 import { Search, Home, Filter, X, Sparkles, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import axiosClient from '../client/axiosClient';
-import { Player } from '@/app/types/type';
+import { Player, Team } from '@/app/types/type';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Players = () => {
   const [players, setPlayers] = useState<Player[]>([]);
+  const [teams, setTeams] = useState<Team[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'sold' | 'unsold'>('all');
   const [priceFilter, setPriceFilter] = useState<number | 'all'>('all');
 
-  // Fetch all players once
+  // Fetch all players and teams once
   useEffect(() => {
-    const fetchPlayers = async () => {
+    const fetchData = async () => {
       setLoading(true);
       try {
-        const { data } = await axiosClient.get<Player[]>('/api/auction/players');
-        setPlayers(data);
+        const [playersResponse, teamsResponse] = await Promise.all([
+          axiosClient.get<Player[]>('/api/auction/players'),
+          axiosClient.get<Team[]>('/api/auction/teams')
+        ]);
+        setPlayers(playersResponse.data);
+        setTeams(teamsResponse.data);
       } catch (error) {
-        console.error('Error fetching players:', error);
+        console.error('Error fetching data:', error);
         setPlayers([]);
+        setTeams([]);
       } finally {
         setLoading(false);
       }
     };
-    fetchPlayers();
+    fetchData();
   }, []);
 
   // Apply client-side filtering
@@ -303,7 +309,7 @@ const Players = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05, duration: 0.4 }}
                 >
-                  <PlayerCard player={player} />
+                  <PlayerCard player={player} teams={teams} />
                 </motion.div>
               ))}
             </motion.div>

@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import axiosClient from '@/app/client/axiosClient';
 import { Player, Team } from '@/app/types/type';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -11,26 +10,10 @@ import { motion } from 'framer-motion';
 
 interface PlayerCardProps {
   player: Player;
+  teams: Team[];
 }
 
-const PlayerCard = ({ player }: PlayerCardProps) => {
-  const [teams, setTeams] = useState<Team[] | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchTeams = async () => {
-      try {
-        const response = await axiosClient.get<Team[]>('/api/auction/teams');
-        setTeams(response.data);
-      } catch (error) {
-        console.error('Failed to fetch teams', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchTeams();
-  }, []);
-
+const PlayerCard = ({ player, teams }: PlayerCardProps) => {
   const getPlayerIcon = () => {
     const role = player.role.toLowerCase();
     const iconClass = "h-6 w-6";
@@ -84,27 +67,6 @@ const PlayerCard = ({ player }: PlayerCardProps) => {
   };
 
   const getTeamById = (id: number) => teams?.find((team) => team.id === id) ?? null;
-
-  if (loading) {
-    return (
-      <Card className="relative overflow-hidden bg-gradient-to-br from-gray-800/60 to-gray-900/60 backdrop-blur-xl border border-gray-700/50 rounded-2xl h-[280px]">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-700/20 to-transparent animate-shimmer" />
-        <div className="p-5 space-y-4">
-          <div className="flex gap-3">
-            <div className="w-16 h-16 bg-gray-700/50 rounded-xl animate-pulse" />
-            <div className="flex-1 space-y-2">
-              <div className="h-4 bg-gray-700/50 rounded animate-pulse w-3/4" />
-              <div className="h-3 bg-gray-700/50 rounded animate-pulse w-1/2" />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <div className="h-3 bg-gray-700/50 rounded animate-pulse" />
-            <div className="h-3 bg-gray-700/50 rounded animate-pulse w-5/6" />
-          </div>
-        </div>
-      </Card>
-    );
-  }
 
   const team = player.teamId ? getTeamById(player.teamId) : null;
   const isSold = player.isSold && player.soldPrice != null;

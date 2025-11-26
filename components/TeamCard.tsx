@@ -12,7 +12,7 @@ interface TeamCardProps {
 
 const TeamCard = ({ team }: TeamCardProps) => {
   // Calculate percentage of purse remaining (assuming initial purse, adjust as needed)
-  const initialPurse = 50000; // Adjust based on your auction rules
+  const initialPurse = 100000; // Adjust based on your auction rules
   const pursePercentage = (team.currentPurse / initialPurse) * 100;
   
   // Dynamic color based on purse remaining
@@ -78,11 +78,11 @@ const TeamCard = ({ team }: TeamCardProps) => {
                 {/* Team Info */}
                 <div className="flex-1 min-w-0">
                   <h3 className="font-black text-xl bg-gradient-to-r from-white via-cyan-100 to-white bg-clip-text text-transparent line-clamp-1 mb-1">
-                    Team {team.captainName}
+                     {team.name}
                   </h3>
                   <div className="flex items-center gap-2">
                     <Sparkles className="h-3 w-3 text-cyan-400 animate-pulse" />
-                    <span className="text-xs text-gray-400 font-medium">Team Captain</span>
+                    <span className="text-xs text-gray-400 font-medium">{team.captainName}</span>
                   </div>
                 </div>
 
