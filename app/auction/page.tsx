@@ -507,7 +507,7 @@ const Auction = () => {
               </div>
             </div>
 
-            <div className="space-y-2 max-h-[950px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-emerald-700/50 scrollbar-track-transparent">
+            <div className="space-y-2 max-h-[800px] overflow-y-auto pr-4 p-2 scrollbar-thin scrollbar-thumb-emerald-700/50 scrollbar-track-transparent">
               {teams.map((team, index) => (
                 <motion.div
                   key={team.teamId}

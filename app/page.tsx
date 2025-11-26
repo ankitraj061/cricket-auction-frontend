@@ -68,7 +68,7 @@ const HomePage = () => {
       {/* Grid Pattern Overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] opacity-10 pointer-events-none"></div>
 
-      <div className="relative container mx-auto px-4 py-16 md:py-24">
+      <div className="relative container mx-auto px-4 py-12 md:py-10">
         {/* Hero */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

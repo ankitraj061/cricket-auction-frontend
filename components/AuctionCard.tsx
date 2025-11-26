@@ -109,7 +109,7 @@ const AuctionCard = ({ player }: AuctionCardProps) => {
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 via-transparent to-transparent"></div>
                 </div>
               ) : (
-                <div className="relative w-60 h-60 rounded-full flex items-center justify-center border-4 border-gray-700/50 shadow-[0_0_40px_rgba(0,255,255,0.3)] bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm">
+                <div className="relative w-80 h-80 rounded-full flex items-center justify-center border-4 border-gray-700/50 shadow-[0_0_40px_rgba(0,255,255,0.3)] bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm">
                   {getPlayerIcon()}
                 </div>
               )}
