@@ -1,18 +1,22 @@
-// auction cards : 
 'use client';
 
 import Image from 'next/image';
 import { Player } from '@/app/types/type';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { IndianRupee, Zap, Trophy, Target } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { IndianRupee, Zap, Trophy, Target, TrendingUp } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface AuctionCardProps {
   player: Player;
+  defaultPrice?: number; // Optional: current bid price
 }
 
-const AuctionCard = ({ player }: AuctionCardProps) => {
+const AuctionCard = ({ player, defaultPrice }: AuctionCardProps) => {
+  // ✅ Use defaultPrice if provided, otherwise use basePrice
+  const displayPrice = defaultPrice || player.basePrice;
+  const isBidding = defaultPrice && defaultPrice > player.basePrice;
+
   const roleConfig = {
     batsman: { 
       label: 'Batsman', 
@@ -74,11 +78,10 @@ const AuctionCard = ({ player }: AuctionCardProps) => {
         <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-cyan-500/20 to-transparent rounded-br-full blur-2xl"></div>
         <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-purple-500/20 to-transparent rounded-tl-full blur-2xl"></div>
 
-
         {/* Main Content */}
         <div className="relative p-2 px-10">
           {/* Player Showcase Section */}
-          <div className=" items-start gap-8 mb-6 grid md:grid-cols-2 lg:grid-col-2 sm:grid-cols-1">
+          <div className="items-start gap-8 mb-6 grid md:grid-cols-2 lg:grid-col-2 sm:grid-cols-1">
             {/* Enhanced Avatar with Holographic Ring */}
             <motion.div 
               className="relative flex-shrink-0"
@@ -138,20 +141,101 @@ const AuctionCard = ({ player }: AuctionCardProps) => {
                 </h3>
               </motion.div>
 
-              {/* Base Price Card */}
+              {/* ✅ Current Bid / Base Price Card with Animation */}
               <motion.div 
-                className="bg-gradient-to-br from-amber-900/40 to-orange-900/40 backdrop-blur-xl border border-amber-500/40 rounded-2xl p-3 shadow-[0_8px_32px_0_rgba(245,158,11,0.2)]"
+                className={`bg-gradient-to-br backdrop-blur-xl border rounded-2xl p-3 transition-all duration-300 ${
+                  isBidding 
+                    ? 'from-emerald-900/40 to-green-900/40 border-emerald-500/40 shadow-[0_8px_32px_0_rgba(16,185,129,0.2)]'
+                    : 'from-amber-900/40 to-orange-900/40 border-amber-500/40 shadow-[0_8px_32px_0_rgba(245,158,11,0.2)]'
+                }`}
                 whileHover={{ scale: 1.02 }}
+                animate={isBidding ? { 
+                  boxShadow: [
+                    '0 8px 32px 0 rgba(16,185,129,0.2)',
+                    '0 8px 32px 0 rgba(16,185,129,0.4)',
+                    '0 8px 32px 0 rgba(16,185,129,0.2)'
+                  ]
+                } : {}}
+                transition={{ duration: 1.5, repeat: isBidding ? Infinity : 0 }}
               >
-                <p className="text-xs font-semibold text-amber-300 mb-2 tracking-wider uppercase">Base Price</p>
-                <div className="flex items-center gap-2">
-                  <div className="p-2 bg-amber-500/20 rounded-xl">
-                    <IndianRupee className="h-6 w-6 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
-                  </div>
-                  <p className="text-3xl font-black text-amber-300 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]">
-                    {player.basePrice.toLocaleString()}
+                <div className="flex items-center justify-between mb-2">
+                  <p className={`text-xs font-semibold tracking-wider uppercase ${
+                    isBidding ? 'text-emerald-300' : 'text-amber-300'
+                  }`}>
+                    {isBidding ? 'Current Bid' : 'Base Price'}
                   </p>
+                  
+                  {/* ✅ Live Bidding Indicator */}
+                  <AnimatePresence>
+                    {isBidding && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0 }}
+                        className="flex items-center gap-1 bg-emerald-500/20 px-2 py-1 rounded-full"
+                      >
+                        <motion.div
+                          animate={{ scale: [1, 1.2, 1] }}
+                          transition={{ duration: 1, repeat: Infinity }}
+                          className="w-2 h-2 bg-emerald-400 rounded-full"
+                        />
+                        <span className="text-[10px] font-bold text-emerald-400">LIVE</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
+
+                <div className="flex items-center gap-2">
+                  <div className={`p-2 rounded-xl ${
+                    isBidding ? 'bg-emerald-500/20' : 'bg-amber-500/20'
+                  }`}>
+                    {isBidding ? (
+                      <TrendingUp className="h-6 w-6 text-emerald-400 drop-shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                    ) : (
+                      <IndianRupee className="h-6 w-6 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
+                    )}
+                  </div>
+                  
+                  {/* ✅ Animated Price Counter */}
+                  <motion.p
+                    key={displayPrice}
+                    initial={{ scale: 1.2, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                    className={`text-3xl font-black ${
+                      isBidding 
+                        ? 'text-emerald-300 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]'
+                        : 'text-amber-300 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]'
+                    }`}
+                  >
+                    {displayPrice.toLocaleString()}
+                  </motion.p>
+                </div>
+
+                {/* ✅ Base Price Reference when bidding */}
+                <AnimatePresence>
+                  {isBidding && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="mt-2 pt-2 border-t border-emerald-500/20"
+                    >
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="text-gray-400">Base Price:</span>
+                        <span className="text-gray-300 font-semibold">
+                          ₹{player.basePrice.toLocaleString()}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between text-xs mt-1">
+                        <span className="text-emerald-400">Increase:</span>
+                        <span className="text-emerald-300 font-bold">
+                          +₹{(displayPrice - player.basePrice).toLocaleString()}
+                        </span>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
 
               {/* Role Card */}
@@ -209,9 +293,6 @@ const AuctionCard = ({ player }: AuctionCardProps) => {
             </motion.div>
           )}
         </div>
-
-        {/* Bottom Accent Bar */}
-        {/* <div className="h-2 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500"></div> */}
       </Card>
     </motion.div>
   );
