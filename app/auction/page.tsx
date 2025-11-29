@@ -3,120 +3,64 @@
 
 
 import React, { useEffect, useState, useRef } from 'react';
-
 import { toast } from 'sonner';
-
 import Link from 'next/link';
-
 import { motion, AnimatePresence } from 'framer-motion';
-
 import confetti from 'canvas-confetti';
 
-
-
 import axiosClient from '@/app/client/axiosClient';
-
 import AuctionCard from '@/components/AuctionCard';
-
 import SellDialog from '@/components/SellDialog';
 
-
-
 import { Button } from '@/components/ui/button';
-
 import { Input } from '@/components/ui/input';
-
 import { Card } from '@/components/ui/card';
 
 import {
-
   IndianRupee,
-
   Users,
-
   Home,
-
   CheckCircle,
-
   Search,
-
   Gavel,
-
   TrendingUp,
-
   Zap,
-
   Trophy,
-
   ArrowUp,
-
   ArrowDown,
-
   Minus,
-
   Plus
-
 } from 'lucide-react';
-
-
-
-
-
-
 
 // ✅ Local type definitions matching your API responses
 
 interface Team {
-
   teamId: number;
-
   name: string;
-
   totalPlayers: number;
-
   remainingPurse: number;
-
 }
 
-
-
 interface Player {
-
   id: number;
-
   name: string;
-
   mobile: string | null;
-
   role: 'BATSMAN' | 'BOWLER' | 'ALLROUNDER';
-
   basePrice: number;
-
   soldPrice: number | null;
-
   description: string | null;
-
   stats: string | null;
-
   playerImageUrl: string | null;
-
   teamId: number | null;
-
   isSold: boolean;
-
   isUnsold: boolean;
-
   createdAt: string;
-
   updatedAt: string;
-
 }
 
 
 
 const INITIAL_PURSE = 100000;
-
-
 
 const Auction = () => {
 
@@ -159,19 +103,19 @@ const Auction = () => {
 
 
   const memefails = [
-
     'kaunHaiYeLog.mp3',
-
     'rajpalRona.mp3',
-
     'yeSabKyaDekhanaPadRhaHai.mp3',
-
     'khatamHoGayaMatter.mp3',
-
     'maiGaliNhiDeSkta.mp3',
-
     'wapisZaroorAaungaMai.mp3'
-
+  ];
+  const memepass = [
+    'achhaThikHai.mp3',
+    'thankslove.mp3',
+    'kyaBaatHaiSir.mp3',
+    'abhiMazaAayegaNaBhidu.mp3',
+    'paisaHiPaisa.mp3'
   ];
 
 
@@ -203,51 +147,123 @@ const Auction = () => {
   };
 
 
+  const playPassMusic = (fileName: string) => {
+    console.log("request coming in play pass...");
+    
+    if (audioRef.current) {
+      const audioFilePath = `/${fileName}`; // Assumes files are in the public directory
+
+      console.log(`🎵 Attempting to play pass audio: ${fileName}`);
+
+      // Create a new Audio object to play the selected meme file
+      const passAudio = new Audio(audioFilePath);
+
+      // Play the audio
+      passAudio.volume = 0.9;
+      passAudio.play()
+        .then(() => {
+          console.log('✅ Pass audio playing successfully!');
+        })
+        .catch(error => {
+          console.error('❌ Error playing pass audio:', error);
+        });
+    }
+  };
+
+
 
   // ✅ FIXED: Increment bid (Right Arrow) - 3 second auto-close
 
-  const incrementBid = () => {
+  // const incrementBid = () => {
 
+  //   if (!currentPlayer) return;
+
+   
+
+  //   setCurrentBid(prev => {
+
+  //     const increment = getIncrementAmount(prev);
+
+  //     return prev + increment;
+
+  //   });
+
+   
+
+  //   setBidAnimation('up');
+
+  //   setShowBidPopup(true);
+
+   
+
+  //   // Clear existing timeout
+
+  //   if (bidPopupTimeoutRef.current) {
+
+  //     clearTimeout(bidPopupTimeoutRef.current);
+
+  //   }
+
+   
+
+  //   // ✅ Hide popup after 3 seconds
+
+  //   bidPopupTimeoutRef.current = setTimeout(() => {
+
+  //     setShowBidPopup(false);
+
+  //     setBidAnimation(null);
+
+  //   }, 3000);
+
+  // };
+  const incrementBid = () => {
     if (!currentPlayer) return;
 
-   
+    // Use a temporary variable for the new bid value
+    let newBid = currentPlayer.basePrice;
 
     setCurrentBid(prev => {
-
       const increment = getIncrementAmount(prev);
+      newBid = prev + increment; // ✅ Update the newBid variable
 
-      return prev + increment;
-
+      // ✅ New: Check for Meme Pass Milestones
+      switch (newBid) {
+        case 5000: // Assuming this is 5 currency units, as requested
+          playPassMusic(memepass[0]);
+          break;
+        case 6000:
+          playPassMusic(memepass[1]);
+          break;
+        case 10000:
+          playPassMusic(memepass[2]);
+          break;
+        case 16000:
+          playPassMusic(memepass[3]);
+          break;
+        case 26000:
+          playPassMusic(memepass[4]);
+          break;
+        default:
+          break;
+      }
+      
+      return newBid;
     });
 
-   
-
     setBidAnimation('up');
-
     setShowBidPopup(true);
 
-   
-
     // Clear existing timeout
-
     if (bidPopupTimeoutRef.current) {
-
       clearTimeout(bidPopupTimeoutRef.current);
-
     }
 
-   
-
     // ✅ Hide popup after 3 seconds
-
     bidPopupTimeoutRef.current = setTimeout(() => {
-
       setShowBidPopup(false);
-
       setBidAnimation(null);
-
     }, 3000);
-
   };
 
 
@@ -257,38 +273,17 @@ const Auction = () => {
   const decrementBid = () => {
 
     if (!currentPlayer) return;
-
-   
-
     setCurrentBid(prev => {
-
       const decrement = getIncrementAmount(prev - 1);
-
       const newBid = Math.max(currentPlayer.basePrice, prev - decrement);
-
-     
-
       if (newBid === prev) {
-
         toast.info('Cannot go below base price');
-
         return prev;
-
       }
-
-     
-
       return newBid;
-
     });
-
-   
-
     setBidAnimation('down');
-
     setShowBidPopup(true);
-
-   
 
     if (bidPopupTimeoutRef.current) {
 
@@ -298,15 +293,11 @@ const Auction = () => {
 
    
 
-    // ✅ Hide popup after 3 seconds
-
+    // ✅ Hide popup after 2 seconds
     bidPopupTimeoutRef.current = setTimeout(() => {
-
       setShowBidPopup(false);
-
       setBidAnimation(null);
-
-    }, 3000);
+    }, 1500);
 
   };
 
@@ -321,50 +312,25 @@ const Auction = () => {
       // Prevent default only if we're handling the key
 
       if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-
         // Don't handle if user is typing in an input field
-
         if (document.activeElement?.tagName === 'INPUT') return;
-
-       
-
         e.preventDefault();
-
-       
-
         if (e.key === 'ArrowRight') {
-
           incrementBid();
-
         } else if (e.key === 'ArrowLeft') {
-
           decrementBid();
-
         }
-
       }
-
     };
-
-
 
     window.addEventListener('keydown', handleKeyPress);
-
-   
-
     return () => {
-
       window.removeEventListener('keydown', handleKeyPress);
-
       if (bidPopupTimeoutRef.current) {
-
         clearTimeout(bidPopupTimeoutRef.current);
-
       }
-
     };
-
-  }, [currentPlayer]); // ✅ Removed currentBid from dependencies
+  }, [currentPlayer]); 
 
 
 
@@ -483,8 +449,6 @@ const Auction = () => {
       audioRef.current.currentTime = 0;
 
       audioRef.current.volume = 0.7;
-
-     
 
       audioRef.current.play()
 
@@ -970,6 +934,7 @@ const playUnsoldMusic = () => {
 
   }
 
+  
 
 
   return (
