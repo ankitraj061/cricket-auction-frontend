@@ -10,7 +10,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -20,7 +19,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { toast } from 'sonner';
-import { Gavel, TrendingUp, IndianRupee, Users, Sparkles, AlertCircle } from 'lucide-react';
+import { Gavel, IndianRupee, Users, Sparkles, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // ✅ Local type definitions matching Auction component
@@ -54,21 +53,15 @@ interface SellDialogProps {
   teams: Team[];
   currentPlayer: Player | null;
   onSell: (teamId: string, soldPrice: number) => void;
+  defaultPrice: number;
 }
 
-const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell }: SellDialogProps) => {
+const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell, defaultPrice }: SellDialogProps) => {
   const [selectedTeamId, setSelectedTeamId] = useState<string>('');
-  const [soldPrice, setSoldPrice] = useState<string>('');
 
   const handleConfirm = () => {
-    if (!selectedTeamId || !soldPrice || !currentPlayer) {
-      toast.error('Please select a team and enter sold price');
-      return;
-    }
-
-    const price = parseInt(soldPrice, 10);
-    if (isNaN(price) || price < currentPlayer.basePrice) {
-      toast.error(`Sold price must be at least ₹${currentPlayer.basePrice.toLocaleString()}`);
+    if (!selectedTeamId || !currentPlayer) {
+      toast.error('Please select a team');
       return;
     }
 
@@ -79,30 +72,27 @@ const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell }: SellDi
       return;
     }
 
-    if (selectedTeam.remainingPurse < price) {
+    if (selectedTeam.remainingPurse < defaultPrice) {
       toast.error(`${selectedTeam.name} does not have enough purse remaining`);
       return;
     }
 
-    onSell(selectedTeamId, price);
+    onSell(selectedTeamId, defaultPrice);
     
     // Close dialog and reset
     onOpenChange(false);
     setSelectedTeamId('');
-    setSoldPrice('');
   };
 
+  // ✅ Reset when dialog closes
   useEffect(() => {
     if (!open) {
       setSelectedTeamId('');
-      setSoldPrice('');
     }
   }, [open]);
 
   const selectedTeam = teams.find(t => t.teamId.toString() === selectedTeamId);
-  const priceValue = parseInt(soldPrice, 10);
-  const isValidPrice = !isNaN(priceValue) && priceValue >= (currentPlayer?.basePrice || 0);
-  const hasEnoughPurse = selectedTeam ? selectedTeam.remainingPurse >= priceValue : true;
+  const hasEnoughPurse = selectedTeam ? selectedTeam.remainingPurse >= defaultPrice : true;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -173,6 +163,26 @@ const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell }: SellDi
                 </div>
               </div>
             </motion.div>
+
+            {/* ✅ Final Bid Price Display */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="relative"
+            >
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-500/40 to-orange-500/40 rounded-xl blur"></div>
+              <div className="relative bg-gradient-to-r from-amber-500/20 to-orange-500/20 border-2 border-amber-500/50 rounded-xl p-5">
+                <div className="text-center">
+                  <p className="text-sm text-gray-300 mb-2 font-medium">Final Bid Amount</p>
+                  <div className="flex items-center justify-center gap-2">
+                    <IndianRupee className="h-8 w-8 text-amber-400" />
+                    <span className="text-5xl font-black bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 bg-clip-text text-transparent">
+                      {defaultPrice.toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </DialogHeader>
 
           <div className="space-y-6 py-6">
@@ -219,7 +229,7 @@ const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell }: SellDi
                     exit={{ opacity: 0, height: 0 }}
                     className="overflow-hidden"
                   >
-                    <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 space-y-2">
+                    <div className={`${hasEnoughPurse ? 'bg-blue-500/10 border-blue-500/30' : 'bg-red-500/10 border-red-500/30'} border rounded-lg p-4 space-y-2`}>
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-gray-300">Team:</span>
                         <span className="font-bold text-white">{selectedTeam.name}</span>
@@ -230,66 +240,26 @@ const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell }: SellDi
                       </div>
                       <div className="flex items-center justify-between text-sm pt-2 border-t border-blue-500/20">
                         <span className="text-gray-300">Purse Remaining:</span>
-                        <span className="font-bold text-amber-400 flex items-center gap-1">
+                        <span className={`font-bold flex items-center gap-1 ${hasEnoughPurse ? 'text-amber-400' : 'text-red-400'}`}>
                           <IndianRupee className="h-3.5 w-3.5" />
                           {selectedTeam.remainingPurse.toLocaleString()}
                         </span>
                       </div>
+                      
+                      {/* ✅ Purse validation message */}
+                      {!hasEnoughPurse && (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="flex items-center gap-2 text-red-400 text-sm bg-red-500/20 border border-red-500/30 rounded-lg p-2 mt-2"
+                        >
+                          <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                          <span className="font-medium">
+                            Insufficient funds! Team needs ₹{(defaultPrice - selectedTeam.remainingPurse).toLocaleString()} more
+                          </span>
+                        </motion.div>
+                      )}
                     </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* Price Input */}
-            <div className="space-y-3">
-              <Label htmlFor="price" className="text-base font-semibold flex items-center gap-2">
-                <TrendingUp className="h-4 w-4 text-amber-400" />
-                Final Bid Amount
-              </Label>
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                  <IndianRupee className="h-5 w-5 text-amber-400" />
-                </div>
-                <Input
-                  id="price"
-                  type="number"
-                  placeholder={`Minimum: ${currentPlayer?.basePrice.toLocaleString()}`}
-                  value={soldPrice}
-                  onChange={e => setSoldPrice(e.target.value)}
-                  className="h-14 pl-12 pr-4 bg-gray-800/60 border-2 border-gray-700 focus:border-amber-500 text-lg font-bold text-white placeholder:text-gray-500 focus:ring-2 focus:ring-amber-500/30 transition-all"
-                  min={currentPlayer?.basePrice}
-                />
-              </div>
-
-              {/* Price Validation Feedback */}
-              <AnimatePresence>
-                {soldPrice && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -5 }}
-                  >
-                    {isValidPrice && hasEnoughPurse ? (
-                      <div className="flex items-center gap-2 text-emerald-400 text-sm bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-2">
-                        <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                        <span className="font-medium">Valid bid amount</span>
-                      </div>
-                    ) : !isValidPrice ? (
-                      <div className="flex items-center gap-2 text-red-400 text-sm bg-red-500/10 border border-red-500/30 rounded-lg p-2">
-                        <AlertCircle className="h-4 w-4" />
-                        <span className="font-medium">
-                          Must be at least ₹{currentPlayer?.basePrice.toLocaleString()}
-                        </span>
-                      </div>
-                    ) : !hasEnoughPurse && selectedTeam ? (
-                      <div className="flex items-center gap-2 text-orange-400 text-sm bg-orange-500/10 border border-orange-500/30 rounded-lg p-2">
-                        <AlertCircle className="h-4 w-4" />
-                        <span className="font-medium">
-                          Team has only ₹{selectedTeam.remainingPurse.toLocaleString()} remaining
-                        </span>
-                      </div>
-                    ) : null}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -301,24 +271,24 @@ const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell }: SellDi
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="flex-1 h-12 border-2 border-gray-600 hover:bg-gray-800 hover:text-white font-semibold transition-all"
+              className="flex-1 h-12 border-2 border-gray-600 bg-gray-800 text-white font-semibold transition-all"
             >
               Cancel
             </Button>
             
             <motion.div 
               className="flex-1"
-              whileHover={{ scale: !selectedTeamId || !isValidPrice || !hasEnoughPurse ? 1 : 1.02 }}
-              whileTap={{ scale: !selectedTeamId || !isValidPrice || !hasEnoughPurse ? 1 : 0.98 }}
+              whileHover={{ scale: !selectedTeamId || !hasEnoughPurse ? 1 : 1.02 }}
+              whileTap={{ scale: !selectedTeamId || !hasEnoughPurse ? 1 : 0.98 }}
             >
               <div className="relative group">
-                {selectedTeamId && isValidPrice && hasEnoughPurse && (
+                {selectedTeamId && hasEnoughPurse && (
                   <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-green-500 rounded-lg blur opacity-60 group-hover:opacity-100 transition duration-300"></div>
                 )}
                 <Button
                   type="button"
                   onClick={handleConfirm}
-                  disabled={!selectedTeamId || !isValidPrice || !hasEnoughPurse}
+                  disabled={!selectedTeamId || !hasEnoughPurse}
                   className="relative w-full h-12 bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-700 hover:from-emerald-500 hover:via-green-500 hover:to-emerald-600 text-white font-black text-lg disabled:opacity-50 disabled:cursor-not-allowed shadow-lg disabled:shadow-none transition-all"
                 >
                   <Gavel className="h-5 w-5 mr-2" />

@@ -5,8 +5,33 @@ import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Users, UserSearch, Gavel, UserPlus, UsersRound, Plus } from 'lucide-react';
 import Image from 'next/image';
+import SoldPlayersMarquee from '@/components/SoldPlayersMarquee';
+import { useEffect, useState } from 'react';
+import axiosClient from '@/app/client/axiosClient';
 
 const HomePage = () => {
+   const [teams, setTeams] = useState([]);
+   const [loading, setLoading] = useState(true);
+
+
+   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const teamsResponse = await axiosClient.get("/api/auction/teams");
+        setTeams(teamsResponse.data);
+      } catch (error) {
+        console.error("Failed to fetch teams:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+   if (loading) {
+    return <div>Loading...</div>;
+  }
   const menuItems = [
     {
       title: 'Players',
@@ -276,6 +301,7 @@ const HomePage = () => {
             );
           })}
         </div>
+      <SoldPlayersMarquee teams={teams} />
 
         {/* Footer */}
         <div className="mt-24 text-center text-gray-500 text-sm">
