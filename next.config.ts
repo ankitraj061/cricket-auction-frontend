@@ -12,6 +12,10 @@ const nextConfig = {
         port: '',
         pathname: '/yellocricket2025/**',
       },
+      {
+        protocol: "https",
+        hostname: "ik.imagekit.io",
+      },
       
     ],
   },

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Users, UserSearch, Gavel, UserPlus, UsersRound, Plus } from 'lucide-react';
+import Image from 'next/image';
 
 const HomePage = () => {
   const menuItems = [
@@ -81,13 +82,26 @@ const HomePage = () => {
               LIVE AUCTION SYSTEM
             </span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-white to-emerald-200">
-              Cricket Auction Hub
-            </span>
-          </h1>
+         
+       <div className="w-full flex justify-center">
+  <img
+    src="https://ik.imagekit.io/s0kb1s3cx3/PWIOI/yello-Photoroom.png"
+    alt=""
+    className="h-40 w-60 object-contain"
+  />
+</div>
+
+<h1 className="text-4xl md:text-7xl font-bold mb-6 tracking-tight text-center">
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-white to-emerald-200">
+    Premier League
+  </span>
+</h1>
+
+          
+
+        
           <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-            Draft your dream XI. Manage budgets. Outbid rivals. Own the season.
+            Draft your dream VII. Manage budgets. Outbid rivals. Own the season.
           </p>
 
           {/* Quick Action Buttons */}
