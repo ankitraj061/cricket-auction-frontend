@@ -40,7 +40,7 @@ const CreateTeam = () => {
   const labelClasses = "block text-sm font-semibold text-gray-300 mb-2 flex items-center gap-2";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 p-6 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -58,21 +58,21 @@ const CreateTeam = () => {
         className="max-w-2xl mx-auto relative z-10"
       >
         {/* Holographic Border */}
-        <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-3xl blur-xl opacity-20"></div>
+        <div className="absolute -inset-1 bg-linear-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-3xl blur-xl opacity-20"></div>
 
         {/* Main Card */}
-        <div className="relative bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-2xl border-2 border-gray-600/30 rounded-3xl overflow-hidden shadow-2xl">
+        <div className="relative bg-linear-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-2xl border-2 border-gray-600/30 rounded-3xl overflow-hidden shadow-2xl">
           {/* Header */}
-          <div className="relative bg-gradient-to-r from-cyan-600/30 via-purple-600/30 to-pink-600/30 backdrop-blur-md p-6 border-b border-cyan-500/30">
+          <div className="relative bg-linear-to-r from-cyan-600/30 via-purple-600/30 to-pink-600/30 backdrop-blur-md p-6 border-b border-cyan-500/30">
             {/* Shine Effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-[shimmer_3s_ease-in-out_infinite]"></div>
+            <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-[shimmer_3s_ease-in-out_infinite]"></div>
             
             <div className="relative flex items-center gap-4">
-              <div className="p-3 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-2xl border border-cyan-500/30 shadow-[0_0_20px_rgba(6,182,212,0.3)]">
+              <div className="p-3 bg-linear-to-br from-cyan-500/20 to-purple-500/20 rounded-2xl border border-cyan-500/30 shadow-[0_0_20px_rgba(6,182,212,0.3)]">
                 <Users className="h-8 w-8 text-cyan-400" />
               </div>
               <div>
-                <h2 className="text-3xl font-black bg-gradient-to-r from-cyan-200 via-purple-200 to-pink-200 bg-clip-text text-transparent">
+                <h2 className="text-3xl font-black bg-linear-to-r from-cyan-200 via-purple-200 to-pink-200 bg-clip-text text-transparent">
                   Create New Team
                 </h2>
                 <p className="text-gray-400 text-sm mt-1">Add a team to the auction</p>
@@ -157,9 +157,9 @@ const CreateTeam = () => {
               className="relative w-full group"
             >
               {/* Button Glow Effect */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-2xl blur opacity-60 group-hover:opacity-100 transition duration-300"></div>
-              
-              <div className={`relative bg-gradient-to-r from-cyan-600 to-purple-600 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 ${
+              <div className="absolute -inset-1 bg-linear-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-2xl blur opacity-60 group-hover:opacity-100 transition duration-300"></div>
+
+              <div className={`relative bg-linear-to-r from-cyan-600 to-purple-600 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 ${
                 submitting ? 'opacity-70 cursor-not-allowed' : 'hover:shadow-[0_0_30px_rgba(6,182,212,0.5)]'
               }`}>
                 {submitting ? (
@@ -178,7 +178,7 @@ const CreateTeam = () => {
           </form>
 
           {/* Bottom Accent Bar */}
-          <div className="h-2 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500"></div>
+          <div className="h-2 bg-linear-to-r from-cyan-500 via-purple-500 to-pink-500"></div>
         </div>
       </motion.div>
 

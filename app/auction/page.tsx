@@ -45,7 +45,7 @@ interface Player {
   id: number;
   name: string;
   mobile: string | null;
-  role: 'BATSMAN' | 'BOWLER' | 'ALLROUNDER';
+  role: 'BATSMAN' | 'BOWLER' | 'ALLROUNDER' | 'WICKETKEEPER';
   basePrice: number;
   soldPrice: number | null;
   description: string | null;
@@ -618,9 +618,9 @@ const playUnsoldMusic = () => {
 
       await reloadTeams();
 
-    } catch (error: any) {
+    } catch (error) {
 
-      const message = error?.response?.data?.error || 'Failed to mark unsold';
+      const message = (error as { response?: { data?: { error?: string } } })?.response?.data?.error || 'Failed to mark unsold';
 
       toast.error(message);
 
@@ -700,9 +700,11 @@ const playUnsoldMusic = () => {
 
       await reloadTeams();
 
-    } catch (error: any) {
+    } catch (error) {
 
-      toast.error(error?.response?.data?.error || 'Failed to sell player');
+      const errorMessage = (error as { response?: { data?: { error?: string } } })?.response?.data?.error || 'Failed to sell player';
+
+      toast.error(errorMessage);
 
     }
 
@@ -742,9 +744,11 @@ const playUnsoldMusic = () => {
 
       setSearchResults(res.data);
 
-    } catch (error: any) {
+    } catch (error) {
 
-      toast.error(error?.response?.data?.error || 'Search failed');
+      const errorMessage = (error as { response?: { data?: { error?: string } } })?.response?.data?.error || 'Search failed';
+
+      toast.error(errorMessage);
 
       setSearchResults([]);
 

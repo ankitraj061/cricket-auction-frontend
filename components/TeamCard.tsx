@@ -32,26 +32,26 @@ const TeamCard = ({ team }: TeamCardProps) => {
         {/* Outer Glow Container */}
         <div className="relative h-full">
           {/* Animated Glow Border */}
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-2xl opacity-0 group-hover:opacity-75 blur-sm transition-all duration-500"></div>
+          <div className="absolute -inset-0.5 bg-linear-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-2xl opacity-0 group-hover:opacity-75 blur-sm transition-all duration-500"></div>
           
           {/* Main Card */}
-          <Card className="relative bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-2xl border-2 border-gray-700/40 rounded-2xl h-full overflow-hidden shadow-xl group-hover:border-cyan-500/50 group-hover:shadow-[0_0_40px_rgba(6,182,212,0.2)] transition-all duration-500">
+          <Card className="relative bg-linear-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-2xl border-2 border-gray-700/40 rounded-2xl h-full overflow-hidden shadow-xl group-hover:border-cyan-500/50 group-hover:shadow-[0_0_40px_rgba(6,182,212,0.2)] transition-all duration-500">
             {/* Animated Background Pattern */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] opacity-[0.03]"></div>
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-size-[14px_24px] opacity-[0.03]"></div>
             
             {/* Top Gradient Accent */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 opacity-60"></div>
+            <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-cyan-500 via-purple-500 to-pink-500 opacity-60"></div>
             
             {/* Content Container */}
             <div className="relative p-3 flex flex-col h-full">
               {/* Team Header Section */}
               <div className="flex items-start gap-3 mb-3">
              
-                <div className="relative flex-shrink-0 ">
+                <div className="relative shrink-0 ">
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                    className="absolute -inset-1 bg-gradient-to-r from-emerald-500 via-cyan-500 to-emerald-500 rounded-full opacity-60 blur-sm group-hover:opacity-100 transition-opacity duration-500"
+                    className="absolute -inset-1 bg-linear-to-r from-emerald-500 via-cyan-500 to-emerald-500 rounded-full opacity-60 blur-sm group-hover:opacity-100 transition-opacity duration-500"
                   ></motion.div>
                   
                   {team.captainImage ? (
@@ -61,7 +61,7 @@ const TeamCard = ({ team }: TeamCardProps) => {
                       className="relative w-25 h-25 rounded-full border-3 border-gray-700/50 object-cover shadow-lg"
                     />
                   ) : (
-                    <div className="relative w-25 h-25 rounded-full bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 backdrop-blur-sm flex items-center justify-center border-3 border-emerald-500/30 shadow-lg">
+                    <div className="relative w-25 h-25 rounded-full bg-linear-to-br from-emerald-500/20 to-cyan-500/20 backdrop-blur-sm flex items-center justify-center border-3 border-emerald-500/30 shadow-lg">
                       <span className="text-emerald-400 font-black text-xl">
                         {team.captainName.charAt(0)}
                       </span>
@@ -69,14 +69,14 @@ const TeamCard = ({ team }: TeamCardProps) => {
                   )}
                   
                   {/* Captain Badge */}
-                  <div className="absolute -bottom-1 -right-1 bg-gradient-to-br from-amber-500 to-orange-500 p-1.5 rounded-full shadow-[0_0_12px_rgba(245,158,11,0.6)]">
+                  <div className="absolute -bottom-1 -right-1 bg-linear-to-br from-amber-500 to-orange-500 p-1.5 rounded-full shadow-[0_0_12px_rgba(245,158,11,0.6)]">
                     <Trophy className="h-5 w-5 text-gray-900" />
                   </div>
                 </div>
 
                 {/* Team Info */}
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-black text-lg bg-gradient-to-r from-white via-cyan-100 to-white bg-clip-text text-transparent line-clamp-1 mb-1 mt-2">
+                  <h3 className="font-black text-lg bg-linear-to-r from-white via-cyan-100 to-white bg-clip-text text-transparent line-clamp-1 mb-1 mt-2">
                      {team.name}
                   </h3>
                   <div className="flex items-center gap-2">
@@ -99,11 +99,11 @@ const TeamCard = ({ team }: TeamCardProps) => {
               <div className="space-y-2  mt-auto ">
                 {/* Purse Card */}
                 <motion.div 
-                  className="bg-gradient-to-br from-amber-900/20 to-orange-900/20 backdrop-blur-xl border border-amber-500/30 rounded-xl p-4 group-hover:border-amber-500/50 transition-all duration-300 relative overflow-hidden"
+                  className="bg-linear-to-br from-amber-900/20 to-orange-900/20 backdrop-blur-xl border border-amber-500/30 rounded-xl p-4 group-hover:border-amber-500/50 transition-all duration-300 relative overflow-hidden"
                   whileHover={{ scale: 1.02 }}
                 >
                   {/* Shine Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -skew-x-12 group-hover:translate-x-full transition-transform duration-1000"></div>
+                  <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent -skew-x-12 group-hover:translate-x-full transition-transform duration-1000"></div>
                   
                   <div className="relative flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -119,7 +119,7 @@ const TeamCard = ({ team }: TeamCardProps) => {
                     </div>
                     
                     {/* Purse Status Indicator */}
-                    <div className={`px-3 py-1 bg-gradient-to-r ${getPurseColor()} rounded-full text-xs font-bold text-white shadow-lg`}>
+                    <div className={`px-3 py-1 bg-linear-to-r ${getPurseColor()} rounded-full text-xs font-bold text-white shadow-lg`}>
                       {pursePercentage.toFixed(0)}%
                     </div>
                   </div>
@@ -130,18 +130,18 @@ const TeamCard = ({ team }: TeamCardProps) => {
                       initial={{ width: 0 }}
                       animate={{ width: `${pursePercentage}%` }}
                       transition={{ duration: 1, delay: 0.2 }}
-                      className={`h-full bg-gradient-to-r ${getPurseColor()} shadow-[0_0_8px_currentColor]`}
+                      className={`h-full bg-linear-to-r ${getPurseColor()} shadow-[0_0_8px_currentColor]`}
                     ></motion.div>
                   </div>
                 </motion.div>
 
                 {/* Players Card */}
                 <motion.div 
-                  className="bg-gradient-to-br from-emerald-900/20 to-teal-900/20 backdrop-blur-xl border border-emerald-500/30 rounded-xl p-4 group-hover:border-emerald-500/50 transition-all duration-300 relative overflow-hidden"
+                  className="bg-linear-to-br from-emerald-900/20 to-teal-900/20 backdrop-blur-xl border border-emerald-500/30 rounded-xl p-4 group-hover:border-emerald-500/50 transition-all duration-300 relative overflow-hidden"
                   whileHover={{ scale: 1.02 }}
                 >
                   {/* Shine Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -skew-x-12 group-hover:translate-x-full transition-transform duration-1000"></div>
+                  <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent -skew-x-12 group-hover:translate-x-full transition-transform duration-1000"></div>
                   
                   <div className="relative flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -171,7 +171,7 @@ const TeamCard = ({ team }: TeamCardProps) => {
             </div>
 
             {/* Bottom Accent - Hidden, revealed on hover */}
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-linear-to-r from-cyan-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           </Card>
         </div>
       </Link>

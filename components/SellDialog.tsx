@@ -34,7 +34,7 @@ interface Player {
   id: number;
   name: string;
   mobile: string | null;
-  role: 'BATSMAN' | 'BOWLER' | 'ALLROUNDER';
+  role: 'BATSMAN' | 'BOWLER' | 'ALLROUNDER' | 'WICKETKEEPER';
   basePrice: number;
   soldPrice: number | null;
   description: string | null;
@@ -87,6 +87,7 @@ const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell, defaultP
   // ✅ Reset when dialog closes
   useEffect(() => {
     if (!open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectedTeamId('');
     }
   }, [open]);
@@ -96,7 +97,7 @@ const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell, defaultP
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-2xl bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border-2 border-amber-500/30 text-white overflow-hidden shadow-2xl">
+      <DialogContent className="sm:max-w-2xl bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 border-2 border-amber-500/30 text-white overflow-hidden shadow-2xl">
         {/* Animated background effects */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -120,12 +121,12 @@ const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell, defaultP
               <motion.div
                 animate={{ rotate: [0, 10, -10, 0] }}
                 transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                className="p-3 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl shadow-lg"
+                className="p-3 bg-linear-to-br from-amber-500 to-orange-600 rounded-xl shadow-lg"
               >
                 <Gavel className="h-6 w-6 text-white" />
               </motion.div>
               <div>
-                <DialogTitle className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400">
+                <DialogTitle className="text-2xl font-black bg-clip-text text-transparent bg-linear-to-r from-amber-300 via-yellow-200 to-amber-400">
                   Complete the Sale
                 </DialogTitle>
                 <DialogDescription className="text-gray-400 mt-1">
@@ -141,8 +142,8 @@ const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell, defaultP
               animate={{ opacity: 1, y: 0 }}
               className="relative"
             >
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/30 to-blue-500/30 rounded-xl blur"></div>
-              <div className="relative bg-gradient-to-r from-emerald-500/10 to-blue-500/10 border border-emerald-500/30 rounded-xl p-4">
+              <div className="absolute -inset-0.5 bg-linear-to-r from-emerald-500/30 to-blue-500/30 rounded-xl blur"></div>
+              <div className="relative bg-linear-to-r from-emerald-500/10 to-blue-500/10 border border-emerald-500/30 rounded-xl p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-emerald-500/20 rounded-lg">
@@ -170,13 +171,13 @@ const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell, defaultP
               animate={{ opacity: 1, scale: 1 }}
               className="relative"
             >
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-500/40 to-orange-500/40 rounded-xl blur"></div>
-              <div className="relative bg-gradient-to-r from-amber-500/20 to-orange-500/20 border-2 border-amber-500/50 rounded-xl p-5">
+              <div className="absolute -inset-0.5 bg-linear-to-r from-amber-500/40 to-orange-500/40 rounded-xl blur"></div>
+              <div className="relative bg-linear-to-r from-amber-500/20 to-orange-500/20 border-2 border-amber-500/50 rounded-xl p-5">
                 <div className="text-center">
                   <p className="text-sm text-gray-300 mb-2 font-medium">Final Bid Amount</p>
                   <div className="flex items-center justify-center gap-2">
                     <IndianRupee className="h-8 w-8 text-amber-400" />
-                    <span className="text-5xl font-black bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 bg-clip-text text-transparent">
+                    <span className="text-5xl font-black bg-linear-to-r from-amber-300 via-yellow-200 to-amber-400 bg-clip-text text-transparent">
                       {defaultPrice.toLocaleString()}
                     </span>
                   </div>
@@ -253,7 +254,7 @@ const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell, defaultP
                           animate={{ opacity: 1 }}
                           className="flex items-center gap-2 text-red-400 text-sm bg-red-500/20 border border-red-500/30 rounded-lg p-2 mt-2"
                         >
-                          <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                          <AlertCircle className="h-4 w-4 shrink-0" />
                           <span className="font-medium">
                             Insufficient funds! Team needs ₹{(defaultPrice - selectedTeam.remainingPurse).toLocaleString()} more
                           </span>
@@ -283,13 +284,13 @@ const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell, defaultP
             >
               <div className="relative group">
                 {selectedTeamId && hasEnoughPurse && (
-                  <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-green-500 rounded-lg blur opacity-60 group-hover:opacity-100 transition duration-300"></div>
+                  <div className="absolute -inset-1 bg-linear-to-r from-emerald-500 to-green-500 rounded-lg blur opacity-60 group-hover:opacity-100 transition duration-300"></div>
                 )}
                 <Button
                   type="button"
                   onClick={handleConfirm}
                   disabled={!selectedTeamId || !hasEnoughPurse}
-                  className="relative w-full h-12 bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-700 hover:from-emerald-500 hover:via-green-500 hover:to-emerald-600 text-white font-black text-lg disabled:opacity-50 disabled:cursor-not-allowed shadow-lg disabled:shadow-none transition-all"
+                  className="relative w-full h-12 bg-linear-to-r from-emerald-600 via-green-600 to-emerald-700 hover:from-emerald-500 hover:via-green-500 hover:to-emerald-600 text-white font-black text-lg disabled:opacity-50 disabled:cursor-not-allowed shadow-lg disabled:shadow-none transition-all"
                 >
                   <Gavel className="h-5 w-5 mr-2" />
                   Confirm Sale

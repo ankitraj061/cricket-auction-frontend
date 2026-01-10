@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { cn } from "@/lib/utils";
+
 import { Marquee } from "@/components/ui/marquee";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -81,17 +81,17 @@ const PlayerCard = ({
       transition={{ duration: 0.3 }}
       className="h-full group"
     >
-      <figure className="relative h-full w-80 cursor-pointer overflow-hidden rounded-2xl border-2 border-white/10 bg-gradient-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-xl p-5 transition-all duration-500 hover:border-white/30 hover:shadow-2xl">
+      <figure className="relative h-full w-80 cursor-pointer overflow-hidden rounded-2xl border-2 border-white/10 bg-linear-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-xl p-5 transition-all duration-500 hover:border-white/30 hover:shadow-2xl">
         {/* Animated Gradient Border Glow */}
         <div
-          className="absolute -inset-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm rounded-2xl"
+          className="absolute -inset-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm rounded-2xl"
           style={{
             background: `conic-gradient(from 0deg, transparent 0%, ${teamColor}80 50%, transparent 100%)`,
           }}
         />
 
         {/* Shimmer Effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+        <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
 
         {/* Radial Glow on Hover */}
         <div
@@ -135,11 +135,11 @@ const PlayerCard = ({
             </div>
 
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-white truncate mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-300 transition-all">
+              <h3 className="text-lg font-bold text-white truncate mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-white group-hover:to-gray-300 transition-all">
                 {player.name}
               </h3>
               <span
-                className={`inline-block px-3 py-1 rounded-full text-xs font-semibold border bg-gradient-to-r backdrop-blur-sm ${getRoleBadgeColor(
+                className={`inline-block px-3 py-1 rounded-full text-xs font-semibold border bg-linear-to-r backdrop-blur-sm ${getRoleBadgeColor(
                   player.role
                 )}`}
               >
@@ -149,7 +149,7 @@ const PlayerCard = ({
           </div>
 
           {/* Price Section with Glassmorphism */}
-          <div className="bg-gradient-to-r from-emerald-500/10 to-teal-500/10 backdrop-blur-sm rounded-xl p-4 mb-3 border border-emerald-500/20 shadow-lg">
+          <div className="bg-linear-to-r from-emerald-500/10 to-teal-500/10 backdrop-blur-sm rounded-xl p-4 mb-3 border border-emerald-500/20 shadow-lg">
             <div className="flex justify-between items-center mb-3">
               <div>
                 <p className="text-xs text-gray-400 mb-1">Base Price</p>
@@ -264,7 +264,7 @@ export function SoldPlayersMarquee({ teams }: SoldPlayersMarqueeProps) {
           </span>
         </div>
         <h2 className="text-4xl md:text-5xl font-bold mb-3">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 via-white to-cyan-200">
+          <span className="bg-clip-text text-transparent bg-linear-to-r from-emerald-300 via-white to-cyan-200">
             🏆 Championship Roster
           </span>
         </h2>
@@ -274,7 +274,7 @@ export function SoldPlayersMarquee({ teams }: SoldPlayersMarqueeProps) {
       </motion.div>
 
       {/* Full-Width Marquee Container */}
-      <div className="relative w-full overflow-hidden rounded-2xl bg-gradient-to-b from-gray-900/50 to-gray-800/50 backdrop-blur-sm py-12 border-y border-white/5">
+      <div className="relative w-full overflow-hidden rounded-2xl bg-linear-to-b from-gray-900/50 to-gray-800/50 backdrop-blur-sm py-12 border-y border-white/5">
         {/* First Row - Left to Right */}
         <Marquee pauseOnHover className="[--duration:45s] mb-6">
           {firstRow.map(({ player, teamName, teamColor }) => (
@@ -302,8 +302,8 @@ export function SoldPlayersMarquee({ teams }: SoldPlayersMarqueeProps) {
         )}
 
         {/* Edge Gradient Overlays for Seamless Effect */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/6 bg-gradient-to-r from-gray-900 via-gray-900/50 to-transparent z-20" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/6 bg-gradient-to-l from-gray-900 via-gray-900/50 to-transparent z-20" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/6 bg-linear-to-r from-gray-900 via-gray-900/50 to-transparent z-20" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/6 bg-linear-to-l from-gray-900 via-gray-900/50 to-transparent z-20" />
       </div>
 
       {/* Enhanced Stats Summary with Glow Cards */}
@@ -356,13 +356,13 @@ export function SoldPlayersMarquee({ teams }: SoldPlayersMarqueeProps) {
                 style={{ background: `radial-gradient(circle, ${stat.glowColor} 0%, transparent 70%)` }}
               />
 
-              <div className={`relative bg-gradient-to-br ${stat.gradient} backdrop-blur-xl rounded-2xl p-6 border-2 ${stat.borderColor} group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
+              <div className={`relative bg-linear-to-br ${stat.gradient} backdrop-blur-xl rounded-2xl p-6 border-2 ${stat.borderColor} group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
                 {/* Shimmer Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+                <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
 
                 <div className="relative z-10 flex items-center justify-between mb-3">
                   <p className="text-sm text-gray-400 font-medium">{stat.label}</p>
-                  <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${stat.gradient} border ${stat.borderColor} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`w-10 h-10 rounded-lg bg-linear-to-br ${stat.gradient} border ${stat.borderColor} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                     <Icon className={`h-5 w-5 ${stat.color}`} />
                   </div>
                 </div>

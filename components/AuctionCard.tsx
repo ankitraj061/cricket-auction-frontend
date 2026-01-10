@@ -1,19 +1,35 @@
 'use client';
 
 import Image from 'next/image';
-import { Player } from '@/app/types/type';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { IndianRupee, Zap, Trophy, Target, TrendingUp } from 'lucide-react';
+import { IndianRupee, Target, TrendingUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+
+// ✅ Local Player type matching your API response exactly
+interface Player {
+  id: number;
+  name: string;
+  mobile: string | null;
+  role: 'BATSMAN' | 'BOWLER' | 'ALLROUNDER' | 'WICKETKEEPER';
+  basePrice: number;
+  soldPrice: number | null;
+  description: string | null;
+  stats: string | null;
+  playerImageUrl: string | null;
+  teamId: number | null;
+  isSold: boolean;
+  isUnsold: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
 
 interface AuctionCardProps {
   player: Player;
-  defaultPrice?: number; // Optional: current bid price
+  defaultPrice?: number;
 }
 
 const AuctionCard = ({ player, defaultPrice }: AuctionCardProps) => {
-  // ✅ Use defaultPrice if provided, otherwise use basePrice
   const displayPrice = defaultPrice || player.basePrice;
   const isBidding = defaultPrice && defaultPrice > player.basePrice;
 
@@ -45,12 +61,13 @@ const AuctionCard = ({ player, defaultPrice }: AuctionCardProps) => {
     },
   };
 
+  // ✅ Convert role to lowercase for roleConfig lookup
   const roleKey = player.role.toLowerCase() as keyof typeof roleConfig;
   const role = roleConfig[roleKey] || roleConfig.default;
 
   const getPlayerIcon = () => {
     const r = player.role.toLowerCase();
-    const cls = "h-50 w-50 text-gray-400";
+    const cls = "h-16 w-16 text-gray-400";
     if (r.includes('bat')) return <BatIcon className={cls} />;
     if (r.includes('bowl')) return <BowlIcon className={cls} />;
     if (r.includes('all')) return <AllRoundIcon className={cls} />;
@@ -65,12 +82,13 @@ const AuctionCard = ({ player, defaultPrice }: AuctionCardProps) => {
       transition={{ duration: 0.5 }}
       className="relative max-w-5xl"
     >
-      {/* Holographic Border Glow */}
+      {/* ✅ Fixed: bg-linear-to-r → bg-gradient-to-r */}
       <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-3xl blur-xl opacity-30 animate-pulse"></div>
       
       <Card className="relative bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-2xl border-2 border-gray-600/30 rounded-3xl overflow-hidden shadow-2xl">
         {/* Animated Background Pattern */}
         <div className="absolute inset-0 opacity-5">
+          {/* ✅ Fixed: bg-size-[14px_24px] → bg-[size:14px_24px] */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px]"></div>
         </div>
 
@@ -81,10 +99,10 @@ const AuctionCard = ({ player, defaultPrice }: AuctionCardProps) => {
         {/* Main Content */}
         <div className="relative p-2 px-10">
           {/* Player Showcase Section */}
-          <div className="items-start gap-8 mb-6 grid md:grid-cols-2 lg:grid-col-2 sm:grid-cols-1">
+          <div className="items-start gap-8 mb-6 grid md:grid-cols-2 lg:grid-cols-2 sm:grid-cols-1">
             {/* Enhanced Avatar with Holographic Ring */}
             <motion.div 
-              className="relative flex-shrink-0"
+              className="relative shrink-0"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -97,9 +115,9 @@ const AuctionCard = ({ player, defaultPrice }: AuctionCardProps) => {
               
               {/* Inner Glow Ring */}
               <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full opacity-50 blur-sm"></div>
-
               {player.playerImageUrl ? (
-                <div className="relative w-75 h-75 rounded-full overflow-hidden border-4 border-gray-700/50 shadow-[0_0_40px_rgba(0,255,255,0.3)] bg-gradient-to-br from-gray-800 to-gray-900">
+                // ✅ Fixed: w-75 h-75 → w-48 h-48 (192px)
+                <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-gray-700/50 shadow-[0_0_40px_rgba(0,255,255,0.3)] bg-gradient-to-br from-gray-800 to-gray-900">
                   <Image
                     src={player.playerImageUrl}
                     alt={player.name}
@@ -112,7 +130,7 @@ const AuctionCard = ({ player, defaultPrice }: AuctionCardProps) => {
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 via-transparent to-transparent"></div>
                 </div>
               ) : (
-                <div className="relative w-75 h-75 rounded-full flex items-center justify-center border-4 border-gray-700/50 shadow-[0_0_40px_rgba(0,255,255,0.3)] bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm">
+                <div className="relative w-48 h-48 rounded-full flex items-center justify-center border-4 border-gray-700/50 shadow-[0_0_40px_rgba(0,255,255,0.3)] bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm">
                   {getPlayerIcon()}
                 </div>
               )}
@@ -141,7 +159,7 @@ const AuctionCard = ({ player, defaultPrice }: AuctionCardProps) => {
                 </h3>
               </motion.div>
 
-              {/* ✅ Current Bid / Base Price Card with Animation */}
+              {/* Current Bid / Base Price Card */}
               <motion.div 
                 className={`bg-gradient-to-br backdrop-blur-xl border rounded-2xl p-3 transition-all duration-300 ${
                   isBidding 
@@ -165,7 +183,7 @@ const AuctionCard = ({ player, defaultPrice }: AuctionCardProps) => {
                     {isBidding ? 'Current Bid' : 'Base Price'}
                   </p>
                   
-                  {/* ✅ Live Bidding Indicator */}
+                  {/* Live Bidding Indicator */}
                   <AnimatePresence>
                     {isBidding && (
                       <motion.div
@@ -196,7 +214,7 @@ const AuctionCard = ({ player, defaultPrice }: AuctionCardProps) => {
                     )}
                   </div>
                   
-                  {/* ✅ Animated Price Counter */}
+                  {/* Animated Price Counter */}
                   <motion.p
                     key={displayPrice}
                     initial={{ scale: 1.2, opacity: 0 }}
@@ -208,11 +226,11 @@ const AuctionCard = ({ player, defaultPrice }: AuctionCardProps) => {
                         : 'text-amber-300 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]'
                     }`}
                   >
-                    {displayPrice.toLocaleString()}
+                    ₹{displayPrice.toLocaleString()}
                   </motion.p>
                 </div>
 
-                {/* ✅ Base Price Reference when bidding */}
+                {/* Base Price Reference when bidding */}
                 <AnimatePresence>
                   {isBidding && (
                     <motion.div
@@ -254,13 +272,12 @@ const AuctionCard = ({ player, defaultPrice }: AuctionCardProps) => {
             </div>
           </div>
 
-          {/* Description Section - Enhanced Glass */}
+          {/* Description Section */}
           {player.description && (
             <motion.div 
               className="bg-gradient-to-br from-blue-900/20 to-purple-900/20 backdrop-blur-xl border border-blue-500/30 rounded-2xl p-3 mb-3 shadow-[0_8px_32px_0_rgba(59,130,246,0.1)] relative overflow-hidden"
               whileHover={{ borderColor: 'rgba(59,130,246,0.5)' }}
             >
-              {/* Inner Glow */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-400 to-transparent"></div>
               
               <p className="text-xs font-semibold text-blue-300 mb-1 tracking-wider uppercase flex items-center gap-2">
@@ -274,13 +291,12 @@ const AuctionCard = ({ player, defaultPrice }: AuctionCardProps) => {
             </motion.div>
           )}
 
-          {/* Stats Section - Enhanced Glass */}
+          {/* Stats Section */}
           {player.stats && (
             <motion.div 
               className="bg-gradient-to-br from-emerald-900/20 to-teal-900/20 backdrop-blur-xl border border-emerald-500/30 rounded-2xl p-3 shadow-[0_8px_32px_0_rgba(16,185,129,0.1)] relative overflow-hidden"
               whileHover={{ borderColor: 'rgba(16,185,129,0.5)' }}
             >
-              {/* Inner Glow */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent"></div>
               
               <div className="text-xs font-semibold text-emerald-300 mb-1 tracking-wider uppercase flex items-center gap-2">
@@ -298,7 +314,7 @@ const AuctionCard = ({ player, defaultPrice }: AuctionCardProps) => {
   );
 };
 
-// SVG Icons remain the same...
+// SVG Icons
 const BatIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M12 3v14M12 3l-3 5M12 3l3 5" strokeLinecap="round" />

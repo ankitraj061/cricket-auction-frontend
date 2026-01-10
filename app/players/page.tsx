@@ -336,7 +336,7 @@ const Players = () => {
                 
                 <h3 className="text-2xl font-black text-white mb-3">No Players Found</h3>
                 <p className="text-gray-400 max-w-md mx-auto mb-6 leading-relaxed">
-                  We couldn't find any players matching your current filters. Try adjusting your search criteria.
+                  We couldn&apos;t find any players matching your current filters. Try adjusting your search criteria.
                 </p>
                 
                 <motion.button

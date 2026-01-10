@@ -10,7 +10,7 @@ import { motion } from 'framer-motion';
 
 interface PlayerCardProps {
   player: Player;
-  teams: Team[];
+  teams?: Team[];
 }
 
 const PlayerCard = ({ player, teams }: PlayerCardProps) => {
