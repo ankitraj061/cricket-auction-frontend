@@ -216,7 +216,7 @@ const HomePage = () => {
 
       
         {/* Footer */}
-        <footer className="border-t border-gray-500/20 py-8 text-center">
+        <footer className="border-t border-gray-500/20 py-8 px-2 text-center">
           <p className="text-gray-400">
             © {new Date().getFullYear()} Cricket Auction Platform • Made with ❤️ by Ankit Raj
           </p>
