@@ -18,13 +18,13 @@ const Intern: Student[] = [
     name: 'Rishikesh Wagh',
     image: 'https://ik.imagekit.io/yellocricket2025/RishikeshWagh.heic',
     retainedPrice: '6000',
-    team: "Super Seven Warriors",
+    team: "Vibe Chale",
   },
   {
     id: 2,
-    name: 'Srinivasa',
-    image: 'https://ik.imagekit.io/yellocricket2025/srini.jpeg',
-    retainedPrice: '12000',
+    name: 'Devansh',
+    image: 'https://ik.imagekit.io/yellocricket2025/devansh.jpeg',
+    retainedPrice: '28000',
     team: "Gravity Gladiators",
   },
   {
@@ -33,6 +33,13 @@ const Intern: Student[] = [
     image: 'https://ik.imagekit.io/yellocricket2025/om%20patil%20.jpg',
     retainedPrice: '4000',
     team: "Spartan Warriors",
+  },
+   {
+    id: 3,
+    name: 'Yug',
+    image: 'https://ik.imagekit.io/s0kb1s3cx3/PWIOI/20250804_085042%20-%20yuv.heic',
+    retainedPrice: '7000',
+    team: "Parinde 11",
   },
 ];
 
