@@ -70,7 +70,7 @@ const PlayerCard = ({ player, teams }: PlayerCardProps) => {
 
   const team = player.teamId ? getTeamById(player.teamId) : null;
   const isSold = player.isSold && player.soldPrice != null;
-  const teamName = team ? `Team ${team.captainName}` : 'Unsold';
+  const teamName = team ? `Team ${team.name}` : 'Unsold';
 
   // Enhanced role-based styling
   const roleConfig = {
