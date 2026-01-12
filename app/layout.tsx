@@ -24,8 +24,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Auction App",
-  description: "A complete auction app for cricket teams",
+  title: "Yello Premier League Auction",
+  description: "Join the Ultimate Cricket Auction Experience - Build Your Dream Team!",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
