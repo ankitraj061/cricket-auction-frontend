@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useAuth } from './contexts/AuthContext';
 import { Navbar } from '@/components/Navbar';
 import RetainedPlayers from '@/components/RetainedPlayers';
+import { CricketTournamentTimeline } from '@/components/CricketTimeLine';
 
 const HomePage = () => {
   const { isAuthenticated, user, isLoading } = useAuth();
@@ -237,14 +238,17 @@ const HomePage = () => {
           
           {/* Retained Players - NO VIDEO */}
           <RetainedPlayers />
+          {/* Cricket Tournament Timeline - NO VIDEO */}
+         <CricketTournamentTimeline />
 
           {/* Footer - NO VIDEO */}
-          <footer className="border-t border-gray-500/20 py-8 px-2 text-center bg-gray-900/80 backdrop-blur-md">
+          <footer className="border-t border-gray-500/20 py-8 px-2 text-center bg-black backdrop-blur-md">
             <p className="text-gray-400">
               © {new Date().getFullYear()} Cricket Auction Platform • Made with ❤️ by Ankit Raj
             </p>
           </footer>
         </div>
+         
     </>
   );
 };

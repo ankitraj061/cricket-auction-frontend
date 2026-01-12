@@ -87,7 +87,7 @@ const RetainedPlayers = () => {
   return (
     <section className="py-12 sm:py-20 relative overflow-hidden">
       {/* 🔥 NEW ATTRACTIVE CRICKET BACKGROUND ONLY */}
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/30 via-slate-900/50 to-amber-900/30" />
+      <div className="absolute inset-0 bg-black" />
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-50" />
       
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 lg:px-12">
