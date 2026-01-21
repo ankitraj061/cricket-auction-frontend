@@ -244,7 +244,7 @@ const HomePage = () => {
           {/* Footer - NO VIDEO */}
           <footer className="border-t border-gray-500/20 py-8 px-2 text-center bg-black backdrop-blur-md">
             <p className="text-gray-400">
-              © {new Date().getFullYear()} Cricket Auction Platform • Made with ❤️ by Ankit Raj
+              © {new Date().getFullYear()} Cricket Auction Platform • Made with ❤️ by Ankit
             </p>
           </footer>
         </div>

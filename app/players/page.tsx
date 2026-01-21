@@ -17,6 +17,7 @@ const Players = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'sold' | 'unsold'>('all');
   const [priceFilter, setPriceFilter] = useState<number | 'all'>('all');
+  const [roleFilter, setRoleFilter] = useState<'all' | 'BATSMAN' | 'BOWLER' | 'ALLROUNDER'>('all');
 
   // Fetch all players and teams once
   useEffect(() => {
@@ -56,17 +57,23 @@ const Players = () => {
         matchesPrice = player.basePrice === priceFilter;
       }
 
-      return matchesSearch && matchesStatus && matchesPrice;
+      let matchesRole = true;
+      if (roleFilter !== 'all') {
+        matchesRole = player.role === roleFilter;
+      }
+
+      return matchesSearch && matchesStatus && matchesPrice && matchesRole;
     });
-  }, [players, searchQuery, statusFilter, priceFilter]);
+  }, [players, searchQuery, statusFilter, priceFilter, roleFilter]);
 
   const clearFilters = () => {
     setSearchQuery('');
     setStatusFilter('all');
     setPriceFilter('all');
+    setRoleFilter('all');
   };
 
-  const hasActiveFilters = statusFilter !== 'all' || priceFilter !== 'all' || searchQuery;
+  const hasActiveFilters = statusFilter !== 'all' || priceFilter !== 'all' || roleFilter !== 'all' || searchQuery;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-emerald-950 text-white relative overflow-hidden">
@@ -254,6 +261,38 @@ const Players = () => {
                         )}
                         <span className="relative z-10">
                           {price === 'all' ? 'All Prices' : `₹${(price / 1000).toFixed(0)}K`}
+                        </span>
+                      </motion.button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Role Filter Chips */}
+                <div className="space-y-2">
+                  <label className="text-xs font-medium text-gray-400 uppercase tracking-wider">Player Role</label>
+                  <div className="flex flex-wrap gap-2">
+                    {(['all', 'BATSMAN', 'BOWLER', 'ALLROUNDER'] as const).map((role) => (
+                      <motion.button
+                        key={role}
+                        whileHover={{ scale: 1.05, y: -2 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => setRoleFilter(role)}
+                        className={`relative px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                          roleFilter === role
+                            ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-500/30'
+                            : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 border border-gray-600/50'
+                        }`}
+                      >
+                        {roleFilter === role && (
+                          <motion.div
+                            layoutId="roleFilter"
+                            className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl"
+                            initial={false}
+                            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                          />
+                        )}
+                        <span className="relative z-10">
+                          {role === 'all' ? 'All Roles' : role}
                         </span>
                       </motion.button>
                     ))}
