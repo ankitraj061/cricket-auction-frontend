@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -22,7 +23,6 @@ import { toast } from 'sonner';
 import { Gavel, IndianRupee, Users, Sparkles, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// ✅ Local type definitions matching Auction component
 interface Team {
   teamId: number;
   name: string;
@@ -58,6 +58,8 @@ interface SellDialogProps {
 
 const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell, defaultPrice }: SellDialogProps) => {
   const [selectedTeamId, setSelectedTeamId] = useState<string>('');
+  const [customPrice, setCustomPrice] = useState<string>('');
+  const [useCustomPrice, setUseCustomPrice] = useState(false);
 
   const handleConfirm = () => {
     if (!selectedTeamId || !currentPlayer) {
@@ -72,28 +74,49 @@ const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell, defaultP
       return;
     }
 
-    if (selectedTeam.remainingPurse < defaultPrice) {
+    // Determine the final price
+    let finalPrice = defaultPrice;
+    if (useCustomPrice) {
+      const parsedCustomPrice = parseInt(customPrice, 10);
+      if (isNaN(parsedCustomPrice) || parsedCustomPrice <= 0) {
+        toast.error('Please enter a valid price');
+        return;
+      }
+      finalPrice = parsedCustomPrice;
+    }
+
+    if (selectedTeam.remainingPurse < finalPrice) {
       toast.error(`${selectedTeam.name} does not have enough purse remaining`);
       return;
     }
 
-    onSell(selectedTeamId, defaultPrice);
+    onSell(selectedTeamId, finalPrice);
     
     // Close dialog and reset
     onOpenChange(false);
     setSelectedTeamId('');
+    setCustomPrice('');
+    setUseCustomPrice(false);
   };
 
   // ✅ Reset when dialog closes
-  useEffect(() => {
-    if (!open) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setSelectedTeamId('');
-    }
-  }, [open]);
+ useEffect(() => {
+  const cleanup = () => {
+    setSelectedTeamId('');
+    setCustomPrice('');
+    setUseCustomPrice(false);
+  };
+
+  if (!open) {
+    cleanup();
+  }
+
+  return cleanup;
+}, [open]);
 
   const selectedTeam = teams.find(t => t.teamId.toString() === selectedTeamId);
-  const hasEnoughPurse = selectedTeam ? selectedTeam.remainingPurse >= defaultPrice : true;
+  const finalPrice = useCustomPrice ? (parseInt(customPrice, 10) || 0) : defaultPrice;
+  const hasEnoughPurse = selectedTeam ? selectedTeam.remainingPurse >= finalPrice : true;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -174,11 +197,11 @@ const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell, defaultP
               <div className="absolute -inset-0.5 bg-linear-to-r from-amber-500/40 to-orange-500/40 rounded-xl blur"></div>
               <div className="relative bg-linear-to-r from-amber-500/20 to-orange-500/20 border-2 border-amber-500/50 rounded-xl p-5">
                 <div className="text-center">
-                  <p className="text-sm text-gray-300 mb-2 font-medium">Final Bid Amount</p>
+                  <p className="text-sm text-gray-300 mb-2 font-medium">Final Sale Price</p>
                   <div className="flex items-center justify-center gap-2">
                     <IndianRupee className="h-8 w-8 text-amber-400" />
                     <span className="text-5xl font-black bg-linear-to-r from-amber-300 via-yellow-200 to-amber-400 bg-clip-text text-transparent">
-                      {defaultPrice.toLocaleString()}
+                      {finalPrice.toLocaleString()}
                     </span>
                   </div>
                 </div>
@@ -187,6 +210,81 @@ const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell, defaultP
           </DialogHeader>
 
           <div className="space-y-6 py-6">
+            {/* Price Selection Tabs */}
+            <div className="space-y-3">
+              <Label className="text-base font-semibold">Sale Price</Label>
+              <div className="grid grid-cols-2 gap-3">
+                {/* Default Bid Button */}
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setUseCustomPrice(false)}
+                  className={`relative p-4 rounded-xl border-2 transition-all duration-200 ${
+                    !useCustomPrice
+                      ? 'border-emerald-500/50 bg-emerald-500/20'
+                      : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
+                  }`}
+                >
+                  <p className="text-xs text-gray-400 mb-1">Default Bid</p>
+                  <p className="text-lg font-bold text-white flex items-center gap-1">
+                    <IndianRupee className="h-4 w-4" />
+                    {defaultPrice.toLocaleString()}
+                  </p>
+                </motion.button>
+
+                {/* Custom Price Button */}
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setUseCustomPrice(true)}
+                  className={`relative p-4 rounded-xl border-2 transition-all duration-200 ${
+                    useCustomPrice
+                      ? 'border-amber-500/50 bg-amber-500/20'
+                      : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
+                  }`}
+                >
+                  <p className="text-xs text-gray-400 mb-1">Custom Price</p>
+                  <p className="text-lg font-bold text-amber-400">Manual Entry</p>
+                </motion.button>
+              </div>
+            </div>
+
+            {/* Custom Price Input */}
+            <AnimatePresence>
+              {useCustomPrice && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="overflow-hidden"
+                >
+                  <div className="space-y-2">
+                    <Label htmlFor="customPrice" className="text-sm font-semibold text-gray-300">
+                      Enter Sale Price
+                    </Label>
+                    <div className="relative">
+                      <IndianRupee className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-amber-400" />
+                      <Input
+                        id="customPrice"
+                        type="number"
+                        placeholder="Enter custom price"
+                        value={customPrice}
+                        onChange={(e) => setCustomPrice(e.target.value)}
+                        className="h-12 pl-12 pr-4 bg-gray-800/60 border-2 border-gray-700 focus:border-amber-500/50 text-white placeholder:text-gray-500 text-base focus:ring-2 focus:ring-amber-500/30"
+                        min="0"
+                      />
+                    </div>
+                   {customPrice && currentPlayer?.basePrice !== undefined && parseInt(customPrice, 10) < currentPlayer.basePrice && (
+  <p className="text-xs text-amber-400 flex items-center gap-1">
+    <AlertCircle className="h-3.5 w-3.5" />
+    Price is below base price of ₹{currentPlayer.basePrice.toLocaleString()}
+  </p>
+)}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* Team Selection */}
             <div className="space-y-3">
               <Label htmlFor="team" className="text-base font-semibold flex items-center gap-2">
@@ -247,7 +345,7 @@ const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell, defaultP
                         </span>
                       </div>
                       
-                      {/* ✅ Purse validation message */}
+                      {/* Purse validation message */}
                       {!hasEnoughPurse && (
                         <motion.div
                           initial={{ opacity: 0 }}
@@ -256,7 +354,7 @@ const SellDialog = ({ open, onOpenChange, teams, currentPlayer, onSell, defaultP
                         >
                           <AlertCircle className="h-4 w-4 shrink-0" />
                           <span className="font-medium">
-                            Insufficient funds! Team needs ₹{(defaultPrice - selectedTeam.remainingPurse).toLocaleString()} more
+                            Insufficient funds! Team needs ₹{(finalPrice - selectedTeam.remainingPurse).toLocaleString()} more
                           </span>
                         </motion.div>
                       )}

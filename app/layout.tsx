@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AuthProvider>
           {/* Mobile Responsive Registration Banner */}
-          <div className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white text-center py-2.5 sm:py-3 px-3 sm:px-4 border-b-2 border-emerald-400 shadow-lg">
+          {/* <div className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white text-center py-2.5 sm:py-3 px-3 sm:px-4 border-b-2 border-emerald-400 shadow-lg">
             <Link 
               href="https://docs.google.com/forms/d/e/1FAIpQLScrDvI-4BKaGXs-TX-nzev1ezipe26815-V2mYih5gvAmU3GQ/viewform?usp=publish-editor" 
               target="_blank"
@@ -48,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 Click Here
               </span>
             </Link>
-          </div>
+          </div> */}
           
           {children}
           <Toaster richColors closeButton position="top-center" />

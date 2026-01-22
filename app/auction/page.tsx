@@ -172,51 +172,6 @@ const Auction = () => {
 
 
 
-  // ✅ FIXED: Increment bid (Right Arrow) - 3 second auto-close
-
-  // const incrementBid = () => {
-
-  //   if (!currentPlayer) return;
-
-   
-
-  //   setCurrentBid(prev => {
-
-  //     const increment = getIncrementAmount(prev);
-
-  //     return prev + increment;
-
-  //   });
-
-   
-
-  //   setBidAnimation('up');
-
-  //   setShowBidPopup(true);
-
-   
-
-  //   // Clear existing timeout
-
-  //   if (bidPopupTimeoutRef.current) {
-
-  //     clearTimeout(bidPopupTimeoutRef.current);
-
-  //   }
-
-   
-
-  //   // ✅ Hide popup after 3 seconds
-
-  //   bidPopupTimeoutRef.current = setTimeout(() => {
-
-  //     setShowBidPopup(false);
-
-  //     setBidAnimation(null);
-
-  //   }, 3000);
-
-  // };
   const incrementBid = () => {
     if (!currentPlayer) return;
 
@@ -627,37 +582,6 @@ const playUnsoldMusic = () => {
     }
 
   };
-
-
-
-// ... rest of the component
-
-
-
-  // const handleUnsold = async () => {
-
-  //   if (!currentPlayer) return;
-
-  //   try {
-
-  //     await axiosClient.put(`/api/auction/players/${currentPlayer.id}/unsold`);
-
-  //     toast.success(`${currentPlayer.name} marked as unsold`);
-
-  //     await reloadCurrentPlayer();
-
-  //     await reloadTeams();
-
-  //   } catch (error: any) {
-
-  //     const message = error?.response?.data?.error || 'Failed to mark unsold';
-
-  //     toast.error(message);
-
-  //   }
-
-  // };
-
 
 
   const handleSell = async (teamId: string, soldPrice: number) => {
@@ -1107,7 +1031,7 @@ const playUnsoldMusic = () => {
 
           <div>
 
-            <div className="inline-flex items-center gap-2 px-3 py-1 mb-3 bg-red-500/10 rounded-full border border-red-500/20 animate-pulse">
+            {/* <div className="inline-flex items-center gap-2 px-3 py-1 mb-3 bg-red-500/10 rounded-full border border-red-500/20 animate-pulse">
 
               <Zap className="h-3.5 w-3.5 text-red-400" />
 
@@ -1117,7 +1041,7 @@ const playUnsoldMusic = () => {
 
               </span>
 
-            </div>
+            </div> */}
 
             <div className='grid grid-cols-[10rem_1fr] w-full max-w-5xl'>
 
@@ -1154,14 +1078,14 @@ const playUnsoldMusic = () => {
             </div>
 
         </div>
-
+{/* 
             <p className="text-gray-400 mt-2 text-sm md:text-base flex items-center gap-2">
 
               <Gavel className="h-4 w-4 text-amber-400" />
 
               Bid in real-time • Build your ultimate XI
 
-            </p>
+            </p> */}
 
           </div>
 
